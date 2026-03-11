@@ -1,4 +1,4 @@
-FROM node:20-alpine
+FROM node:20-slim
 
 WORKDIR /app
 
@@ -10,6 +10,9 @@ COPY . .
 
 RUN npm run build
 
+COPY start.sh .
+RUN chmod +x start.sh
+
 EXPOSE 4000
 
-CMD ["node", "dist/server.js"]
+CMD ["sh", "start.sh"]

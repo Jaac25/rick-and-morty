@@ -16,7 +16,7 @@ interface ICharacter {
     url: string;
   };
   image: string;
-  episode: [string];
+  episode: string[];
   url: string;
   created: string;
 }
@@ -33,9 +33,12 @@ interface ICharacterResponse {
 
 export const fetchCharacters = async () => {
   try {
+    const page = Math.floor(Math.random() * 42) + 1;
+
     const response = await axios.get<ICharacterResponse>(
-      "https://rickandmortyapi.com/api/character?count=15",
+      `https://rickandmortyapi.com/api/character?page=${page}`,
     );
+
     return response.data.results.slice(0, 15);
   } catch (error) {
     throw new Error("Failed to fetch characters");

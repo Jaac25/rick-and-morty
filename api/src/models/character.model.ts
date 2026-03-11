@@ -9,6 +9,8 @@ export interface ICharacter {
   gender?: string;
   origin?: string;
   image?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface CharacterInstance extends Model<ICharacter>, ICharacter {}
@@ -19,7 +21,6 @@ export const Character = sequelize.define<CharacterInstance>(
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
-      autoIncrement: true,
     },
     name: DataTypes.STRING,
     status: DataTypes.STRING,
@@ -27,9 +28,11 @@ export const Character = sequelize.define<CharacterInstance>(
     gender: DataTypes.STRING,
     origin: DataTypes.STRING,
     image: DataTypes.STRING,
+    createdAt: DataTypes.DATE,
+    updatedAt: DataTypes.DATE,
   },
   {
-    timestamps: false,
+    timestamps: true,
     freezeTableName: true,
   },
 );

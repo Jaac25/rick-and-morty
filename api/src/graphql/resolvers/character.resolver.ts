@@ -1,19 +1,25 @@
-import axios from "axios";
+import { CacheService } from "../../services/cache.service";
+import { CharacterService, IFilters } from "../../services/character.service";
 
 export const characterResolver = {
-  characters: async (_: any, args: { name?: string }) => {
-    const response = await axios.get(
-      "https://rickandmortyapi.com/api/character",
-    );
+  characters: async (_: any, args: IFilters, { redis }: { redis: any }) => {
+    const serviceRedis = new CacheService(redis);
+    const serviceCharacters = new CharacterService();
 
-    let characters = response.data.results;
+    const cacheKey = `characters:${JSON.stringify(args)}`;
 
-    console.log({ args });
-    if (args.name) {
-      characters = characters.filter((c: any) =>
-        c.name.toLowerCase().includes(args.name!.toLowerCase()),
-      );
+    const cached = await serviceRedis.getCache(cacheKey);
+
+    if (cached) {
+      console.log("CACHE FOUND");
+      return JSON.parse(cached);
     }
+
+    console.log("CACHE MISS");
+
+    const characters = await serviceCharacters.findCharacters(args);
+
+    await serviceRedis.setCache(cacheKey, characters);
 
     return characters;
   },
