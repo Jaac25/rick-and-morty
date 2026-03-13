@@ -66,10 +66,11 @@ export const Filters = ({ watch, setValue }: Props) => {
           placeholder="Search or filter results"
           value={name}
           onChange={(e) => setValue("name", e.target.value)}
-          className="flex-1 bg-transparent text-sm text-foreground outline-none"
+          className="flex-1 bg-transparent text-sm  outline-none"
         />
         <button
           onClick={() => setOpen(!open)}
+          aria-label="open-filters"
           className={clsx(
             "cursor-pointer p-1 transition-colors w-8 h-8 justify-center flex items-center rounded hover:bg-gray-300",
             open && "bg-primary100",

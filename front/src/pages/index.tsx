@@ -1,7 +1,7 @@
 import { useQuery } from "@apollo/client/react";
 import clsx from "clsx";
 import { useMemo, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { CharacterDetail } from "../components/CharacterDetail";
 import { CharacterList } from "../components/CharacterList";
 import { Filters, type IFilters } from "../components/Filters";
@@ -13,7 +13,7 @@ const Index = () => {
   const [selected, setSelected] = useState<ICharacter | undefined>();
   const [showDetail, setShowDetail] = useState(false);
 
-  const { setValue, watch } = useForm<IFilters>({
+  const { setValue, watch, control } = useForm<IFilters>({
     defaultValues: {
       characters: "all",
       species: "all",
@@ -24,12 +24,12 @@ const Index = () => {
     },
   });
 
-  const name = watch("name");
-  const charactersFilter = watch("characters");
-  const species = watch("species");
-  const statusFilter = watch("status");
-  const gender = watch("gender");
-  const order = watch("order");
+  const name = useWatch({ control, name: "name" });
+  const charactersFilter = useWatch({ control, name: "characters" });
+  const species = useWatch({ control, name: "species" });
+  const statusFilter = useWatch({ control, name: "status" });
+  const gender = useWatch({ control, name: "gender" });
+  const order = useWatch({ control, name: "order" });
 
   const filters = useMemo(
     () => ({
@@ -109,7 +109,7 @@ const Index = () => {
   else if (error)
     lists = (
       <div className="justify-center items-center flex w-full h-full">
-        No hay información
+        No info
       </div>
     );
   else

@@ -82,6 +82,7 @@ export const CharacterDetail = ({ character, onBack, setSelected }: Props) => {
             onClick={onToggleFavorite}
             className="absolute -bottom-1 -right-1"
             aria-label="Toggle favorite"
+            title={isFavorite ? "Borrar Favorito" : "Activar Favorito"}
           >
             <div
               className={clsx(
@@ -100,9 +101,7 @@ export const CharacterDetail = ({ character, onBack, setSelected }: Props) => {
             </div>
           </button>
         </div>
-        <h2 className="mt-3 text-2xl font-bold text-foreground">
-          {character.name}
-        </h2>
+        <h2 className="mt-3 text-2xl font-bold ">{character.name}</h2>
       </div>
 
       <div className="mt-6">
@@ -159,7 +158,7 @@ export const CharacterDetail = ({ character, onBack, setSelected }: Props) => {
 
 const DetailRow = ({ label, value }: { label: string; value: string }) => (
   <div className="py-4">
-    <p className="text-sm font-medium text-foreground">{label}</p>
+    <p className="text-sm font-medium ">{label}</p>
     <p className="text-sm ">{value}</p>
   </div>
 );
