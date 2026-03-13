@@ -8,6 +8,7 @@ import { Filters, type IFilters } from "../components/Filters";
 import { Skeleton } from "../components/Skeleton";
 import { GET_CHARACTERS } from "../graphql/queries/getCharacters";
 import type { ICharacter } from "../layers/types/requests/character";
+import { useDebounce } from "../hooks/useDebounce";
 
 const Index = () => {
   const [selected, setSelected] = useState<ICharacter | undefined>();
@@ -24,7 +25,8 @@ const Index = () => {
     },
   });
 
-  const name = useWatch({ control, name: "name" });
+  const textName = useWatch({ control, name: "name" });
+  const name = useDebounce({ value: textName });
   const charactersFilter = useWatch({ control, name: "characters" });
   const species = useWatch({ control, name: "species" });
   const statusFilter = useWatch({ control, name: "status" });

@@ -1,6 +1,6 @@
-import { useState, useRef, useEffect } from "react";
-import { Search, SlidersVertical } from "lucide-react";
 import clsx from "clsx";
+import { Search, SlidersVertical } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import type { UseFormSetValue, UseFormWatch } from "react-hook-form";
 
 export interface IFilters {
