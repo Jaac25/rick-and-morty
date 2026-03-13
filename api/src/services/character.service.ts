@@ -9,6 +9,9 @@ export interface IFilters {
   species?: string;
   gender?: string;
   origin?: string;
+  isFavorite?: boolean;
+  orderBy?: string;
+  order?: string;
 }
 export class CharacterService {
   @ExecutionTime
@@ -32,7 +35,7 @@ export class CharacterService {
         status: c.status,
         species: c.species,
         gender: c.gender,
-        origin: c.origin?.name,
+        origin: c.origin,
         image: c.image,
       });
     }
@@ -43,16 +46,36 @@ export class CharacterService {
   }
 
   @ExecutionTime
+  async findCharacterById(id: string) {
+    const result = await Character.findByPk(id);
+    return result ? result.toJSON() : null;
+  }
+
+  @ExecutionTime
   async findCharacters(args: IFilters) {
     const result = await Character.findAll({
       where: {
-        ...(args.name && { name: { [Op.like]: `%${args.name}%` } }),
-        ...(args.status && { status: { [Op.eq]: args.status } }),
-        ...(args.species && { species: { [Op.eq]: args.species } }),
-        ...(args.gender && { gender: { [Op.eq]: args.gender } }),
-        ...(args.origin && { origin: { [Op.eq]: args.origin } }),
+        ...(args.name && { name: { [Op.iLike]: `%${args.name}%` } }),
+        ...(args.status && { status: { [Op.iLike]: `%${args.status}%` } }),
+        ...(args.species && { species: { [Op.iLike]: `%${args.species}%` } }),
+        ...(args.gender && { gender: { [Op.iLike]: `%${args.gender}%` } }),
+        ...(args.origin && { origin: { [Op.iLike]: `%${args.origin}%` } }),
+        ...(args.isFavorite !== undefined && { isFavorite: args.isFavorite }),
       },
+      order: [[args.orderBy ?? "name", args.order ?? "ASC"]],
     });
     return result.map((c) => c.toJSON());
+  }
+
+  @ExecutionTime
+  async updateCharacter({ isFavorite }: Partial<ICharacter>, id: string) {
+    const [count] = await Character.update({ isFavorite }, { where: { id } });
+    return count > 0;
+  }
+
+  @ExecutionTime
+  async deleteCharacter(id: string) {
+    const count = await Character.destroy({ where: { id } });
+    return count > 0;
   }
 }

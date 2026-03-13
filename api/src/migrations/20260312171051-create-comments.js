@@ -3,20 +3,21 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("characters", {
+    await queryInterface.createTable("comments", {
       id: {
         type: Sequelize.INTEGER,
+        autoIncrement: true,
         primaryKey: true,
       },
-      name: Sequelize.STRING,
-      status: Sequelize.STRING,
-      species: Sequelize.STRING,
-      gender: Sequelize.STRING,
-      origin: Sequelize.STRING,
-      image: Sequelize.STRING,
-      isFavorite: {
-        type: Sequelize.BOOLEAN,
-        defaultValue: false,
+      comment: Sequelize.STRING,
+      characterId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: "characters",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
       },
       createdAt: {
         type: Sequelize.DATE,
@@ -30,6 +31,6 @@ module.exports = {
   },
 
   async down(queryInterface) {
-    await queryInterface.dropTable("characters");
+    await queryInterface.dropTable("comments");
   },
 };

@@ -46,10 +46,10 @@ const startServer = async () => {
 
   app.use(
     "/graphql",
-    cors(),
+    cors({ origin: "*" }),
     express.json(),
     expressMiddleware(server, {
-      context: async ({ req }) => ({
+      context: async () => ({
         redis,
       }),
     }),

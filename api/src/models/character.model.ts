@@ -9,6 +9,7 @@ export interface ICharacter {
   gender?: string;
   origin?: string;
   image?: string;
+  isFavorite?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -28,6 +29,10 @@ export const Character = sequelize.define<CharacterInstance>(
     gender: DataTypes.STRING,
     origin: DataTypes.STRING,
     image: DataTypes.STRING,
+    isFavorite: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE,
   },

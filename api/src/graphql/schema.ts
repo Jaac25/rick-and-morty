@@ -8,6 +8,15 @@ export const typeDefs = gql`
     species: String
     gender: String
     image: String
+    origin: String
+    isFavorite: Boolean
+  }
+
+  type Comment {
+    id: ID!
+    characterId: ID!
+    comment: String!
+    createdAt: String
   }
 
   type Query {
@@ -17,6 +26,18 @@ export const typeDefs = gql`
       species: String
       gender: String
       origin: String
+      isFavorite: Boolean
+      orderBy: String
+      order: String
     ): [Character]
+    comments(characterId: ID!): [Comment]
+  }
+
+  type Mutation {
+    toggleFavorite(id: ID!, isFavorite: Boolean!): Boolean
+
+    addComment(characterId: ID!, comment: String!): Comment
+
+    deleteCharacter(id: ID!): Boolean
   }
 `;

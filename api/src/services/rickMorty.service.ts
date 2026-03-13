@@ -39,7 +39,8 @@ export const fetchCharacters = async () => {
       `https://rickandmortyapi.com/api/character?page=${page}`,
     );
 
-    return response.data.results.slice(0, 15);
+    const results = response.data.results.slice(0, 15);
+    return results.map((c) => ({ ...c, origin: c.origin.name }));
   } catch (error) {
     throw new Error("Failed to fetch characters");
   }

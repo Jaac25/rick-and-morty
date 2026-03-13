@@ -18,7 +18,7 @@ export const seedCharacters = async () => {
     status: c.status,
     species: c.species,
     gender: c.gender,
-    origin: c.origin?.name,
+    origin: c.origin,
     image: c.image,
   }));
 
